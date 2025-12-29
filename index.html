@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Mobile Index 2025 | Premium Analytics</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #030305;
+            --accent: #00f2fe;
+            --purple: #bc13fe;
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.1);
+            --gold: #ffca28;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: #fff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Анимированный Mesh-фон */
+        .bg-glow {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(at 0% 0%, rgba(188, 19, 254, 0.12) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(0, 242, 254, 0.1) 0px, transparent 50%);
+            filter: blur(100px);
+        }
+
+        /* Nav */
+        nav {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 25px 6%; backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            position: sticky; top: 0; z-index: 1000;
+        }
+
+        .logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.4rem; letter-spacing: -1px; }
+        .logo span { color: var(--accent); }
+
+        .lang-pills { display: flex; gap: 6px; background: rgba(255,255,255,0.05); padding: 5px; border-radius: 50px; border: 1px solid var(--border); }
+        .lang-pills button {
+            background: transparent; border: none; color: #888; padding: 8px 18px;
+            border-radius: 50px; cursor: pointer; transition: 0.3s; font-weight: 700; font-size: 0.75rem;
+        }
+        .lang-pills button.active { background: #fff; color: #000; }
+
+        /* Header */
+        header { text-align: center; padding: 100px 5% 60px; }
+        h1 { font-family: 'Syne', sans-serif; font-size: clamp(2.2rem, 7vw, 4.5rem); line-height: 0.95; margin-bottom: 25px; font-weight: 800; }
+        .hero-desc { color: #888; font-size: 1.1rem; max-width: 650px; margin: 0 auto; line-height: 1.6; }
+
+        /* Table */
+        .container { width: 94%; margin: 0 auto 150px; }
+        .table-card {
+            background: var(--glass); border: 1px solid var(--border);
+            border-radius: 30px; overflow: hidden; backdrop-filter: blur(40px);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.7);
+        }
+
+        .scroll-area { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; min-width: 1150px; }
+        
+        th {
+            background: rgba(255,255,255,0.02); padding: 25px 20px;
+            text-align: left; font-size: 0.7rem; text-transform: uppercase;
+            letter-spacing: 2px; color: var(--accent); border-bottom: 1px solid var(--border);
+        }
+
+        td { padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.03); transition: 0.3s; font-size: 0.92rem; }
+        tr:hover td { background: rgba(255,255,255,0.04); }
+
+        .rank { font-weight: 800; color: #444; }
+        .brand-name { font-weight: 700; color: #fff; }
+        .flagship { color: var(--gold); font-weight: 700; }
+        .money { color: #00ff88; font-family: monospace; font-weight: bold; }
+        .badge { background: rgba(0, 242, 254, 0.1); border: 1px solid var(--accent); padding: 5px 12px; border-radius: 8px; font-size: 0.75rem; }
+
+        /* Footer */
+        footer { padding: 100px 0; text-align: center; background: linear-gradient(to top, rgba(188, 19, 254, 0.05), transparent); }
+        .author-btn {
+            display: inline-flex; align-items: center; gap: 12px;
+            text-decoration: none; color: #fff; padding: 20px 45px; border-radius: 100px;
+            background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+            font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.1rem;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .author-btn:hover {
+            transform: translateY(-8px); background: #fff; color: #000;
+            box-shadow: 0 20px 50px rgba(255,255,255,0.15);
+        }
+
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="bg-glow"></div>
+
+    <nav>
+        <div class="logo">GLOBAL<span>PHONE</span></div>
+        <div class="lang-pills">
+            <button onclick="setLang('en')" class="active" id="btn-en">EN</button>
+            <button onclick="setLang('pl')" id="btn-pl">PL</button>
+            <button onclick="setLang('ru')" id="btn-ru">RU</button>
+        </div>
+    </nav>
+
+    <header>
+        <h1 id="ui-title">Ultimate Mobile<br>Ranking 2025</h1>
+        <p class="hero-desc" id="ui-desc">Complete database of 57 active and legacy mobile brands. Analytics, revenue, and flagship tracking.</p>
+    </header>
+
+    <div class="container">
+        <div class="table-card">
+            <div class="scroll-area">
+                <table>
+                    <thead><tr id="table-head"></tr></thead>
+                    <tbody id="table-body"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <a href="https://t.me/nierosyjski" target="_blank" class="author-btn" id="ui-footer">
+            Telegram канал Автора
+        </a>
+    </footer>
+
+    <script>
+        const db = [
+            ["01", "Apple", "iPhone 17 Pro Max", "$395.1B", "USA, China, Japan", "iPhone SE 4", "17 Pro Max 2TB"],
+            ["02", "Samsung", "Galaxy S25 Ultra", "$240.5B", "Korea, USA, Brazil", "Galaxy A16", "Z Fold 7 Ultra"],
+            ["03", "Huawei", "Pura 80 Ultra", "$105.2B", "China, UAE, Malaysia", "Nova 14 SE", "Mate XT Tri-Fold"],
+            ["04", "Xiaomi", "Xiaomi 15 Ultra", "$52.8B", "China, India, Russia", "Redmi 14C", "15 Pro Titanium"],
+            ["05", "Oppo", "Find X9 Pro", "$31.1B", "China, India, SE Asia", "A3x", "Find N5 Fold"],
+            ["06", "Vivo", "Vivo X300 Pro", "$34.1B", "China, Indonesia, India", "V50 SE", "X Fold 5"],
+            ["07", "Realme", "GT 7 Pro", "$10.2B", "India, Russia, EU", "C75", "GT 7 Pro Explorer"],
+            ["08", "OnePlus", "OnePlus 13", "$12.5B", "USA, India, EU", "Nord 5", "13 Ceramic Edition"],
+            ["09", "Google (Pixel)", "Pixel 10 Pro XL", "$15.9B", "USA, Japan, UK", "Pixel 9a", "Pixel Fold 2"],
+            ["10", "Motorola", "Edge 60 Pro", "$9.1B", "USA, Brazil, Mexico", "Moto G35", "Razr 60 Ultra"],
+            ["11", "Honor", "Magic7 Pro", "$22.4B", "China, Russia, France", "X8b", "Magic7 RSR Porsche"],
+            ["12", "Tecno", "Phantom X4", "$7.2B", "Africa, India, Nigeria", "Spark 25", "Phantom V Fold 2"],
+            ["13", "Infinix", "Zero 50 Ultra", "$6.1B", "India, Egypt, Africa", "Hot 50", "Zero Flip 2"],
+            ["14", "iTel", "P65 Power", "$2.1B", "Nigeria, Pakistan", "A70", "P65 Max"],
+            ["15", "Nokia (HMD)", "Nokia 3210 5G", "$1.5B", "Global", "Nokia G42", "G42 Special"],
+            ["16", "HMD", "HMD Skyline 2", "New Brand", "EU, USA, India", "HMD Aura", "Skyline Ultra"],
+            ["17", "Sony", "Xperia 1 VII", "$6.4B", "Japan, Taiwan, HK", "Xperia 10 VI", "Xperia 1 VII Pro"],
+            ["18", "Asus", "ROG Phone 9", "$4.2B", "Global, Taiwan", "Zenfone 11", "ROG 9 Ultimate"],
+            ["19", "Nothing", "Phone (3)", "$1.2B", "UK, India, USA", "CMF Phone (2)", "Phone (3) Special"],
+            ["20", "Poco", "Poco F7 Pro", "Inc. Xiaomi", "India, Russia, EU", "Poco M7", "F7 Pro 1TB"],
+            ["21", "Redmi", "Note 14 Pro+", "Inc. Xiaomi", "Global", "Redmi A4", "K80 Pro"],
+            ["22", "ZTE", "Axon 70 Ultra", "$11.5B", "China, Mexico, Italy", "Blade V60", "Axon 70 Space"],
+            ["23", "Nubia", "Z70 Ultra", "$2.5B", "Global", "Neo 2", "RedMagic 10 Pro"],
+            ["24", "iQOO", "iQOO 13", "Inc. Vivo", "China, India", "Z9 SE", "iQOO 13 Legend"],
+            ["25", "TCL", "50 Pro XL", "$8.2B", "USA, EU", "40 SE", "50 NxtPaper"],
+            ["26", "Lenovo", "Legion Phone 3", "Niche", "China, USA", "K15", "Legion Duel"],
+            ["27", "Meizu", "Meizu 22 Pro", "$0.8B", "China, Russia", "Note 21", "21 Infinity"],
+            ["28", "Blackview", "BL9000 Pro", "$0.4B", "CIS, Brazil", "A96", "BL9000 Rugged"],
+            ["29", "Ulefone", "Armor 28 Ultra", "$0.4B", "Global", "X15", "Armor 28"],
+            ["30", "Doogee", "V Max Pro", "$0.3B", "Global", "N50", "V30T Ultra"],
+            ["31", "Fairphone", "Fairphone 6", "$0.1B", "EU", "Fairphone 5", "Modular Pro"],
+            ["32", "Sharp", "Aquos R10", "$3.5B", "Japan", "Wish 4", "R10 Pro"],
+            ["33", "Panasonic", "Toughbook P1", "B2B", "Japan", "Eluga", "P1 Pro"],
+            ["34", "Kyocera", "DuraForce 3", "B2B", "Japan, USA", "Torque", "Ultra Rugged"],
+            ["35", "BlackBerry", "Key3 Concept", "Legacy", "USA, Canada", "KeyOne", "Key2"],
+            ["36", "LG", "Wing (Legacy)", "Retired", "Korea, USA", "K-Series", "V60 ThinQ"],
+            ["37", "HTC", "U24 Pro", "$0.2B", "Taiwan, Japan", "Desire 22", "U24 Pro"],
+            ["38", "Alcatel", "1S", "Inc. TCL", "Global", "1", "3X"],
+            ["39", "Cat", "S75", "B2B", "USA, UK", "S42", "S75 Rugged"],
+            ["40", "Cubot", "KingKong X", "$0.1B", "EU, Russia", "Note 50", "X Pro"],
+            ["41", "Transsion", "Multi-brand", "$9.5B", "Africa", "Spark", "Phantom"],
+            ["42", "Lava", "Agni 3", "$0.8B", "India", "Yuva 3", "Agni 3"],
+            ["43", "Micromax", "In Note 3", "$0.1B", "India", "In 2C", "Note 3"],
+            ["44", "Karbonn", "K9 Titanium", "Legacy", "India", "K9", "Titanium"],
+            ["45", "Intex", "Aqua S9", "Legacy", "India", "Aqua", "S9"],
+            ["46", "Gionee", "M30 Max", "$0.2B", "Asia", "P15", "M30 Max"],
+            ["47", "Coolpad", "Cool 30 Pro", "$0.3B", "China", "CP12", "Cool 30 Pro"],
+            ["48", "LeEco", "S1 Pro", "Legacy", "China", "S1", "Le Pro 3"],
+            ["49", "Philips", "S700 Pro", "$0.5B", "Global", "E182", "S700 Pro"],
+            ["50", "Energizer", "P28K Max", "$0.1B", "Global", "E242", "Hardcase"],
+            ["51", "Ruggear", "RG880 Pro", "B2B", "EU", "RG170", "RG880"],
+            ["52", "Archos", "Oxygen 68", "Legacy", "EU", "Junior", "Oxygen"],
+            ["53", "Wileyfox", "Swift 3", "Legacy", "UK, Russia", "Swift", "Swift 3"],
+            ["54", "Essential", "PH-1", "Legacy", "USA", "PH-1", "PH-1"],
+            ["55", "Palm", "Palm 2 Pro", "Niche", "USA", "Nano", "Palm 2"],
+            ["56", "Vertu", "Metavertu 3", "$0.2B", "Global", "Aster", "Metavertu Gold"],
+            ["57", "Razer", "Phone 2", "Legacy", "USA", "RP1", "RP2"]
+        ];
+
+        const ui = {
+            en: { title: "Global Phone<br>Registry 2025", desc: "Complete database of 57 active and legacy mobile brands. Analytics, revenue, and flagship tracking.", footer: "Author's Telegram Channel", head: ["#", "Brand", "Flagship 2025", "Revenue", "Top Markets", "Budget Hit", "Premium"] },
+            pl: { title: "Globalny Indeks<br>Telefonów 2025", desc: "Kompletna baza 57 aktywnych i historycznych marek mobilnych. Statystyki, przychody i flagowce.", footer: "Kanał Telegram Autora", head: ["#", "Marka", "Flagowiec 2025", "Przychód", "Top Rynki", "Budżetowy", "Premium"] },
+            ru: { title: "Мировой Индекс<br>Смартфонов 2025", desc: "Полная база данных всех 57 активных и легендарных брендов. Аналитика доходов и флагманских моделей.", footer: "Telegram канал Автора", head: ["#", "Бренд", "Флагман 2025", "Доход", "Топ Рынки", "Бюджетник", "Премиум"] }
+        };
+
+        function setLang(lang) {
+            document.querySelectorAll('.lang-pills button').forEach(b => b.classList.remove('active'));
+            document.getElementById('btn-'+lang).classList.add('active');
+            
+            document.getElementById('ui-title').innerHTML = ui[lang].title;
+            document.getElementById('ui-desc').innerText = ui[lang].desc;
+            document.getElementById('ui-footer').innerText = ui[lang].footer;
+
+            const head = document.getElementById('table-head');
+            head.innerHTML = ui[lang].head.map(h => `<th>${h}</th>`).join('');
+
+            const body = document.getElementById('table-body');
+            body.innerHTML = db.map(row => `
+                <tr>
+                    <td class="rank">${row[0]}</td>
+                    <td class="brand-name">${row[1]}</td>
+                    <td class="flagship">${row[2]}</td>
+                    <td class="money">${row[3]}</td>
+                    <td style="color:#777;">${row[4]}</td>
+                    <td><span class="badge">${row[5]}</span></td>
+                    <td style="color: #ff4d4d; font-weight: 800;">${row[6]}</td>
+                </tr>
+            `).join('');
+        }
+
+        setLang('en');
+    </script>
+</body>
+</html>
