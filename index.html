@@ -25,7 +25,6 @@
             min-height: 100vh;
         }
 
-        /* Анимированный Mesh-фон */
         .bg-glow {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -36,7 +35,18 @@
             filter: blur(100px);
         }
 
-        /* Nav */
+        /* Переход (Анимация) */
+        .content-fade {
+            transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), filter 0.4s ease;
+        }
+
+        .is-hidden {
+            opacity: 0;
+            transform: translateY(10px);
+            filter: blur(8px);
+        }
+
+        /* Nav & Lang Switcher */
         nav {
             display: flex; justify-content: space-between; align-items: center;
             padding: 25px 6%; backdrop-filter: blur(20px);
@@ -47,19 +57,42 @@
         .logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.4rem; letter-spacing: -1px; }
         .logo span { color: var(--accent); }
 
-        .lang-pills { display: flex; gap: 6px; background: rgba(255,255,255,0.05); padding: 5px; border-radius: 50px; border: 1px solid var(--border); }
+        .lang-pills { 
+            display: flex; 
+            gap: 4px; 
+            background: rgba(255,255,255,0.05); 
+            padding: 4px; 
+            border-radius: 50px; 
+            border: 1px solid var(--border); 
+            position: relative;
+        }
+        
         .lang-pills button {
             background: transparent; border: none; color: #888; padding: 8px 18px;
             border-radius: 50px; cursor: pointer; transition: 0.3s; font-weight: 700; font-size: 0.75rem;
+            position: relative; z-index: 2;
         }
-        .lang-pills button.active { background: #fff; color: #000; }
+        
+        .lang-pills button.active { color: #000; }
+        
+        /* Подвижный фон для кнопок */
+        .pill-bg {
+            position: absolute;
+            height: calc(100% - 8px);
+            width: 50px; /* Будет меняться через JS */
+            background: #fff;
+            border-radius: 50px;
+            top: 4px;
+            left: 4px;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 1;
+        }
 
-        /* Header */
+        /* Header & Tables Styles */
         header { text-align: center; padding: 100px 5% 60px; }
         h1 { font-family: 'Syne', sans-serif; font-size: clamp(2.2rem, 7vw, 4.5rem); line-height: 0.95; margin-bottom: 25px; font-weight: 800; }
         .hero-desc { color: #888; font-size: 1.1rem; max-width: 650px; margin: 0 auto; line-height: 1.6; }
 
-        /* Table */
         .container { width: 94%; margin: 0 auto 150px; }
         .table-card {
             background: var(--glass); border: 1px solid var(--border);
@@ -69,13 +102,11 @@
 
         .scroll-area { overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; min-width: 1150px; }
-        
         th {
             background: rgba(255,255,255,0.02); padding: 25px 20px;
             text-align: left; font-size: 0.7rem; text-transform: uppercase;
             letter-spacing: 2px; color: var(--accent); border-bottom: 1px solid var(--border);
         }
-
         td { padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.03); transition: 0.3s; font-size: 0.92rem; }
         tr:hover td { background: rgba(255,255,255,0.04); }
 
@@ -85,19 +116,14 @@
         .money { color: #00ff88; font-family: monospace; font-weight: bold; }
         .badge { background: rgba(0, 242, 254, 0.1); border: 1px solid var(--accent); padding: 5px 12px; border-radius: 8px; font-size: 0.75rem; }
 
-        /* Footer */
-        footer { padding: 100px 0; text-align: center; background: linear-gradient(to top, rgba(188, 19, 254, 0.05), transparent); }
+        footer { padding: 100px 0; text-align: center; }
         .author-btn {
             display: inline-flex; align-items: center; gap: 12px;
             text-decoration: none; color: #fff; padding: 20px 45px; border-radius: 100px;
             background: rgba(255,255,255,0.05); border: 1px solid var(--border);
-            font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.1rem;
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-family: 'Syne', sans-serif; font-weight: 700; transition: 0.4s;
         }
-        .author-btn:hover {
-            transform: translateY(-8px); background: #fff; color: #000;
-            box-shadow: 0 20px 50px rgba(255,255,255,0.15);
-        }
+        .author-btn:hover { transform: translateY(-8px); background: #fff; color: #000; }
 
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
@@ -110,24 +136,27 @@
     <nav>
         <div class="logo">GLOBAL<span>PHONE</span></div>
         <div class="lang-pills">
-            <button onclick="setLang('en')" class="active" id="btn-en">EN</button>
-            <button onclick="setLang('pl')" id="btn-pl">PL</button>
-            <button onclick="setLang('ru')" id="btn-ru">RU</button>
+            <div class="pill-bg" id="pill-bg"></div>
+            <button onclick="changeLang('en', this)" class="active" id="btn-en">EN</button>
+            <button onclick="changeLang('pl', this)" id="btn-pl">PL</button>
+            <button onclick="changeLang('ru', this)" id="btn-ru">RU</button>
         </div>
     </nav>
 
-    <header>
-        <h1 id="ui-title">Ultimate Mobile<br>Ranking 2025</h1>
-        <p class="hero-desc" id="ui-desc">Complete database of 57 active and legacy mobile brands. Analytics, revenue, and flagship tracking.</p>
-    </header>
+    <div id="main-content" class="content-fade">
+        <header>
+            <h1 id="ui-title">Ultimate Mobile<br>Ranking 2025</h1>
+            <p class="hero-desc" id="ui-desc">Complete database of 57 active and legacy mobile brands. Analytics, revenue, and flagship tracking.</p>
+        </header>
 
-    <div class="container">
-        <div class="table-card">
-            <div class="scroll-area">
-                <table>
-                    <thead><tr id="table-head"></tr></thead>
-                    <tbody id="table-body"></tbody>
-                </table>
+        <div class="container">
+            <div class="table-card">
+                <div class="scroll-area">
+                    <table>
+                        <thead><tr id="table-head"></tr></thead>
+                        <tbody id="table-body"></tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -150,11 +179,11 @@
             ["08", "OnePlus", "OnePlus 13", "$12.5B", "USA, India, EU", "Nord 5", "13 Ceramic Edition"],
             ["09", "Google (Pixel)", "Pixel 10 Pro XL", "$15.9B", "USA, Japan, UK", "Pixel 9a", "Pixel Fold 2"],
             ["10", "Motorola", "Edge 60 Pro", "$9.1B", "USA, Brazil, Mexico", "Moto G35", "Razr 60 Ultra"],
-            ["11", "Honor", "Magic7 Pro", "$22.4B", "China, Russia, France", "X8b", "Magic7 RSR Porsche"],
+            ["11", "Honor", "Magic7 Pro", "$22.4B", "China, Russia, France", "X8b", "Magic7 RSR"],
             ["12", "Tecno", "Phantom X4", "$7.2B", "Africa, India, Nigeria", "Spark 25", "Phantom V Fold 2"],
             ["13", "Infinix", "Zero 50 Ultra", "$6.1B", "India, Egypt, Africa", "Hot 50", "Zero Flip 2"],
             ["14", "iTel", "P65 Power", "$2.1B", "Nigeria, Pakistan", "A70", "P65 Max"],
-            ["15", "Nokia (HMD)", "Nokia 3210 5G", "$1.5B", "Global", "Nokia G42", "G42 Special"],
+            ["15", "Nokia (HMD)", "Nokia 3210 5G", "$1.5B", "Global", "Nokia G42", "G42 Classic"],
             ["16", "HMD", "HMD Skyline 2", "New Brand", "EU, USA, India", "HMD Aura", "Skyline Ultra"],
             ["17", "Sony", "Xperia 1 VII", "$6.4B", "Japan, Taiwan, HK", "Xperia 10 VI", "Xperia 1 VII Pro"],
             ["18", "Asus", "ROG Phone 9", "$4.2B", "Global, Taiwan", "Zenfone 11", "ROG 9 Ultimate"],
@@ -200,37 +229,59 @@
         ];
 
         const ui = {
-            en: { title: "Global Phone<br>Registry 2025", desc: "Complete database of 57 active and legacy mobile brands. Analytics, revenue, and flagship tracking.", footer: "Author's Telegram Channel", head: ["#", "Brand", "Flagship 2025", "Revenue", "Top Markets", "Budget Hit", "Premium"] },
+            en: { title: "Ultimate Mobile<br>Ranking 2025", desc: "Complete database of 57 active and legacy mobile brands. Analytics, revenue, and flagship tracking.", footer: "Author's Telegram Channel", head: ["#", "Brand", "Flagship 2025", "Revenue", "Top Markets", "Budget Hit", "Premium"] },
             pl: { title: "Globalny Indeks<br>Telefonów 2025", desc: "Kompletna baza 57 aktywnych i historycznych marek mobilnych. Statystyki, przychody i flagowce.", footer: "Kanał Telegram Autora", head: ["#", "Marka", "Flagowiec 2025", "Przychód", "Top Rynki", "Budżetowy", "Premium"] },
             ru: { title: "Мировой Индекс<br>Смартфонов 2025", desc: "Полная база данных всех 57 активных и легендарных брендов. Аналитика доходов и флагманских моделей.", footer: "Telegram канал Автора", head: ["#", "Бренд", "Флагман 2025", "Доход", "Топ Рынки", "Бюджетник", "Премиум"] }
         };
 
-        function setLang(lang) {
-            document.querySelectorAll('.lang-pills button').forEach(b => b.classList.remove('active'));
-            document.getElementById('btn-'+lang).classList.add('active');
+        function changeLang(lang, btn) {
+            const content = document.getElementById('main-content');
+            const pillBg = document.getElementById('pill-bg');
             
-            document.getElementById('ui-title').innerHTML = ui[lang].title;
-            document.getElementById('ui-desc').innerText = ui[lang].desc;
-            document.getElementById('ui-footer').innerText = ui[lang].footer;
+            // 1. Анимация переключателя
+            document.querySelectorAll('.lang-pills button').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            pillBg.style.left = btn.offsetLeft + 'px';
+            pillBg.style.width = btn.offsetWidth + 'px';
 
-            const head = document.getElementById('table-head');
-            head.innerHTML = ui[lang].head.map(h => `<th>${h}</th>`).join('');
+            // 2. Анимация контента (Исчезновение)
+            content.classList.add('is-hidden');
 
-            const body = document.getElementById('table-body');
-            body.innerHTML = db.map(row => `
-                <tr>
-                    <td class="rank">${row[0]}</td>
-                    <td class="brand-name">${row[1]}</td>
-                    <td class="flagship">${row[2]}</td>
-                    <td class="money">${row[3]}</td>
-                    <td style="color:#777;">${row[4]}</td>
-                    <td><span class="badge">${row[5]}</span></td>
-                    <td style="color: #ff4d4d; font-weight: 800;">${row[6]}</td>
-                </tr>
-            `).join('');
+            setTimeout(() => {
+                // 3. Смена данных
+                document.getElementById('ui-title').innerHTML = ui[lang].title;
+                document.getElementById('ui-desc').innerText = ui[lang].desc;
+                document.getElementById('ui-footer').innerText = ui[lang].footer;
+
+                const head = document.getElementById('table-head');
+                head.innerHTML = ui[lang].head.map(h => `<th>${h}</th>`).join('');
+
+                const body = document.getElementById('table-body');
+                body.innerHTML = db.map(row => `
+                    <tr>
+                        <td class="rank">${row[0]}</td>
+                        <td class="brand-name">${row[1]}</td>
+                        <td class="flagship">${row[2]}</td>
+                        <td class="money">${row[3]}</td>
+                        <td style="color:#777;">${row[4]}</td>
+                        <td><span class="badge">${row[5]}</span></td>
+                        <td style="color: #ff4d4d; font-weight: 800;">${row[6]}</td>
+                    </tr>
+                `).join('');
+
+                // 4. Анимация контента (Появление)
+                content.classList.remove('is-hidden');
+            }, 400); 
         }
 
-        setLang('en');
+        // Инициализация
+        window.onload = () => {
+            const btnEn = document.getElementById('btn-en');
+            const pillBg = document.getElementById('pill-bg');
+            pillBg.style.left = btnEn.offsetLeft + 'px';
+            pillBg.style.width = btnEn.offsetWidth + 'px';
+            changeLang('en', btnEn);
+        };
     </script>
 </body>
 </html>
